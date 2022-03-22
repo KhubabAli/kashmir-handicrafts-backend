@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": "kashmirhandicrafts_jwtPrivateKey"
+  "jwtPrivateKey": "kashmirhandicrafts_jwtPrivateKey",
+  "db": "kashmirhandicrafts_db"
 }

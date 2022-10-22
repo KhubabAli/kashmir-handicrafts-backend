@@ -2,16 +2,24 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 
 const Address = new mongoose.Schema({
-    name: {type: String},
-    street: {type: String, required: true},
+    firstName: {type: String},
+    lastName: {type: String},
+    streetAddress: {type: String, required: true},
     city: {type: String, required: true},
-    province: {type: String, required: true},
+    addressLine2: Joi.string().min(0),
+    state: {type: String, required: true},
+    phone: Joi.string().required().min(10).max(13),
     country: {type: String, required: true, default: "Pakistan"},
     postalCode: {type: String},
 });
 
 const Customer = mongoose.model('Customer', new mongoose.Schema({
-    name: {
+    firstName: {
+        type: String,
+        minLength: 3,
+        maxLength: 50,
+    },
+    lastName: {
         type: String,
         minLength: 3,
         maxLength: 50,
@@ -38,15 +46,21 @@ const Customer = mongoose.model('Customer', new mongoose.Schema({
 
 function validateCustomer(customer) {
     const addressSchema = Joi.object({
-        street: Joi.string().required(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        streetAddress: Joi.string().required(),
+        addressLine2: Joi.string().min(0),
         city: Joi.string().required(),
-        province: Joi.string().required(),
-        country: Joi.string(),
-        postalCode: Joi.number(),
+        phone: Joi.string().required().min(10).max(13),
+        state: Joi.string().required(),
+        id: Joi.number().required(),
+        country: Joi.string().required(),
+        postalCode: Joi.string().required(),
     })
 
     const schema = Joi.object({
-        name: Joi.string().required().min(3),
+        firstName: Joi.string().required().min(3),
+        lastName: Joi.string().required().min(3),
         phone: Joi.string().required().min(10).max(13),
         email: Joi.string().email(),
         addresses: Joi.array().items(addressSchema),

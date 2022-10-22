@@ -1,6 +1,7 @@
 const {validate, Order} = require("../models/order");
 const {Item} = require("../models/item");
 const {Customer} = require("../models/customer");
+const validateObjectId = require("../middleware/validateObjectId");
 
 const Fawn = require("fawn");
 const mongoose = require("mongoose");
@@ -85,12 +86,20 @@ router.post("/", async (req, res) => {
             })
         })
         task.run();
-        res.send(order)
+        res.send(order.id);
 
     } catch (error) {
         console.log(error)
         res.status(500).send("Something went wrong.");
     }
+})
+
+
+router.get("/:id", [validateObjectId], async (req, res) => {
+    const orders = await Order.find({'customer._id': req.params.id});
+    if (!orders) return res.status(404).send("This customer has no orders.");
+
+    res.send(orders);
 })
 
 module.exports = router

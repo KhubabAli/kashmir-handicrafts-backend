@@ -12,18 +12,18 @@ const router = express.Router();
 
 router.get("/", async (req, res, next) => {
     const categories = await Category.find().sort('name');
+    // console.log("Get Categories is called", categories);
     res.send(categories);
-})
+});
 
 router.get("/:id", validateObjectId, async (req, res) => {
-
 
     const category = await Category.findById(req.params.id);
 
     if (!category) return res.status(404).send("Category doesn't exist.");
 
     res.send(category);
-})
+});
 
 router.post("/", auth, async (req, res) => {
 
@@ -34,7 +34,7 @@ router.post("/", auth, async (req, res) => {
     await category.save();
 
     res.send(category);
-})
+});
 
 
 router.put("/:id", async (req, res) => {

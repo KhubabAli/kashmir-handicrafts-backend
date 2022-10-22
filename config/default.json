@@ -1,4 +1,6 @@
 {
-  "jwtPrivateKey": "",
-  "db": "mongodb://localhost/kashmir-handicraft"
+  "jwtPrivateKey": "sss",
+  "db": "mongodb://localhost/kashmir-handicraft",
+  "stripePublicKey": "pk_test_51KrFMWBn872em2EjlvfsQ2ZyniEkdnt4Origm4KO2NSQgXrANifdIKlrUATJHhLT2YigmrxOW3cDLHL6AXMSTZ2M00pRJ0GltM",
+  "stripeSecretKey": "sk_test_51KrFMWBn872em2Ejaw3CE91glz6mSKhrqDwA0z3mg5OGxmQm5ktiYwkd5CRYMvBoenszzCixeZai6zPiyw0fdr0R00OpMhHBOA"
 }

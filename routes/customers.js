@@ -24,6 +24,11 @@ router.post("/", async (req, res) => {
     const {error} = validate(req.body);
     if (error) return res.status(404).send(error.details[0].message);
 
+    const registeredCustomer = await Customer.findOne({phone: req.body.phone});
+    if (registeredCustomer) {
+        return res.send(registeredCustomer.id);
+    }
+
     const customer = new Customer(req.body);
     await customer.save();
 

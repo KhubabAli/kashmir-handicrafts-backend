@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const {User, validate} = require("../models/user");
+const {Cart} = require("../models/cart");
 const auth = require("../middleware/auth");
 
 
@@ -33,16 +34,25 @@ router.post("/", async (req, res) => {
     let user = await User.findOne({phone: req.body.phone});
     if (user) return res.status(400).send("User already exists");
 
-    user = new User(_.pick(req.body, ["name", "phone", "email", "password"]))
+    const cart = new Cart({items: []});
+
+    user = new User(
+        {
+            ..._.pick(req.body, ["name", "phone", "email", "password"]),
+            cartId: cart._id
+        })
+
+    cart.customerId = user._id;
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
 
+    await cart.save();
     await user.save();
 
     const token = user.generateAuthToken();
 
-    res.header('x-auth-token', token).send(_.pick(user, ["name", "email", "phone", "_id"]));
+    res.header('x-auth-token', token).send(_.pick(user, ["name", "email", "phone", "_id", "cartId"]));
 
 })
 

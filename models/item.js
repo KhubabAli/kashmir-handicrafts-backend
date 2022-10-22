@@ -22,7 +22,20 @@ const itemSchema = new mongoose.Schema({
         required: true,
     },
     description: String,
-    images: [String],
+    imagesId: {
+        type: String,
+        required: true
+    },
+    thumbnail: {
+        type: Buffer, required: true
+    },
+    thumbnailHigh: {
+        type: Buffer, required: true
+    },
+    categoryId: {
+        type: String,
+        required: true
+    },
     color: String,
     size: String,
     totalItems: Number,

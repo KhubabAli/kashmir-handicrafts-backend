@@ -31,11 +31,20 @@ const userSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false,
+    },
+    cartId: {
+        type: String
     }
 });
 
 userSchema.methods.generateAuthToken = function () {
-    return jwt.sign({_id: this._id, isAdmin: this.isAdmin}, config.get('jwtPrivateKey'))
+    return jwt.sign({
+        _id: this._id,
+        isAdmin: this.isAdmin,
+        phone: this.phone,
+        name: this.name,
+        cartId: this.cartId,
+    }, config.get('jwtPrivateKey'))
 }
 
 
